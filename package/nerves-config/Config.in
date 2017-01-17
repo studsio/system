@@ -1,0 +1,75 @@
+menuconfig BR2_PACKAGE_NERVES_CONFIG
+	bool "nerves-config"
+	select BR2_PACKAGE_ERLANG   # Erlang is required for all Nerves systems
+	select BR2_PACKAGE_ERLINIT  # Always use erlinit to boot
+	select BR2_PACKAGE_OPENSSL  # Used for Erlang crypto
+	select BR2_PACKAGE_HOST_FWUP # Used by Nerves packaging tools
+	select BR2_PACKAGE_HOST_ERLANG_RELX # Used to create test .fw file
+	help
+	  Nerves system configuration helper
+
+	  https://github.com/nerves-project/nerves_system_br
+
+if BR2_PACKAGE_NERVES_CONFIG
+
+choice
+        prompt "erlinit.config"
+        default BR2_PACKAGE_NERVES_CONFIG_GENERATE_ERLINIT_CONF
+        help
+          Select source of erlinit.config
+
+config BR2_PACKAGE_NERVES_CONFIG_SPECIFY_ERLINIT_CONF
+        bool "Specify erlinit.config"
+        help
+          Specify a path to an erlinit.config.
+
+config BR2_PACKAGE_NERVES_CONFIG_NO_ERLINIT_CONF
+        bool "No erlinit.config"
+        help
+          Do not include an erlinit.config. The generated image won't boot unless
+          one is added using another mechanism.
+endchoice
+
+if BR2_PACKAGE_NERVES_CONFIG_SPECIFY_ERLINIT_CONF
+
+config BR2_PACKAGE_NERVES_CONFIG_ERLINIT_CONF_PATH
+	string "Path to erlinit.config"
+	default ""
+	help
+	  Specify a path to erlinit.config
+
+endif
+
+config BR2_PACKAGE_NERVES_CONFIG_APPS
+        string "Erlang apps to include"
+        help
+          Space-separated list of Erlang apps to include in the base
+          Nerves image. The apps must be already be built or relx will
+          fail.
+
+config BR2_PACKAGE_NERVES_CONFIG_DISTRIBUTION
+        bool "Enable Erlang distribution"
+        default y
+        help
+          Enable Erlang distribution. You will also need to bring up the
+          appropriate network interfaces at runtime for this to work.
+
+if BR2_PACKAGE_NERVES_CONFIG_DISTRIBUTION
+config BR2_PACKAGE_NERVES_CONFIG_SNAME
+	string "sname"
+	default "demo"
+	help
+	  Use the specified simple name for this node. This will be the
+	  sname for all nodes running the firmware release, so if you have
+	  multiple nodes running the same firmware, it is better to set the
+	  node name at runtime.
+
+config BR2_PACKAGE_NERVES_CONFIG_COOKIE
+	string "cookie"
+	default "democookie"
+	help
+	  The cookie to use for distributed Erlang
+endif
+
+endif
+
