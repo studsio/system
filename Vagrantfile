@@ -6,7 +6,7 @@ VM_CORES=4
 Vagrant.configure('2') do |config|
 	config.vm.box = 'debian/jessie64'
 
-  config.vm.synced_folder "../../", "/home/vagrant/studs"
+  config.vm.synced_folder "../", "/home/vagrant/studs"
 
 	config.vm.provider :vmware_fusion do |v, override|
 		v.vmx['memsize'] = VM_MEMORY
