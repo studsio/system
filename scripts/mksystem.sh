@@ -19,71 +19,54 @@
 
 set -e
 
-# The first parameter is the name of the archive to create. If it's not set
-# we'll set it below.
-ARCHIVE_NAME=$1
-BR2_EXTERNAL=$PWD/..
+# Print message and exit with error code
+fatal() { echo "ERR: $1"; exit 1; }
 
-if [ -z $ARCHIVE_NAME ]; then
-    echo "ERROR: Please specify an archive name"
-    exit 1
-fi
+SYSTEM_NAME=$1
+BR2_EXTERNAL=$2
 
-# Check the working directory
-if [ ! -f $PWD/package/pkg-generic.mk ]; then
-    echo "ERROR: mksystem.sh must be run from the buildroot directory"
-    exit 1
-fi
+# Sanity checks
+[ -z $SYSTEM_NAME ] && fatal "Please specify an system name"
+[ -z $BASE_DIR    ] && fatal "BASE_DIR undefined? Script should be called from Buildroot"
 
-# Check BASE_DIR
-if [ -z $BASE_DIR ]; then
-    echo "ERROR: BASE_DIR undefined? Script should be called from Buildroot."
-    exit 1
-fi
-
-NERVES_DEFCONFIG=$(grep BR2_DEFCONFIG= $BASE_DIR/.config | sed -e 's/BR2_DEFCONFIG=".*\/\(.*\)"/\1/')
-
+# Prepare working dir
+SHORT_NAME=$(echo "$SYSTEM_NAME" | cut -d '-' -f 3)
 WORK_DIR=$BASE_DIR/tmp-system
 rm -fr $WORK_DIR
-mkdir -p $WORK_DIR/$ARCHIVE_NAME
+mkdir -p $WORK_DIR/$SHORT_NAME
 
-# Save the version to the archive in case we need it for debug
-VERSION=$(cat ../VERSION)
-echo $VERSION >$WORK_DIR/$ARCHIVE_NAME/nerves-system.tag
+# Read version
+VERSION=$(cat $BR2_EXTERNAL-$SHORT_NAME/VERSION)
 
-# Add some help text for the curious
-cat << EOT > $WORK_DIR/$ARCHIVE_NAME/README.md
-# Nerves system image
-
-This is an automatically generated archive created by \`nerves_system_br\`. It is
-useful for building embedded Elixir projects without worrying too much
-about the cross-compiler and Linux parts. See http://nerves-project.org
-for more information.
-
-## Build information
-
-Configuration: $NERVES_DEFCONFIG
-nerves_system_br: $VERSION
-EOT
+# Write out system.props (TODO on JRE...)
+echo "name=$SHORT_NAME
+version=$VERSION
+jre=linux-armv6-vfp-hflt" > $WORK_DIR/$SHORT_NAME/system.props
 
 # Copy common nerves shell scripts over
-cp $BR2_EXTERNAL/nerves-env.sh $WORK_DIR/$ARCHIVE_NAME
-cp $BR2_EXTERNAL/nerves.mk $WORK_DIR/$ARCHIVE_NAME
-cp -R $BR2_EXTERNAL/scripts $WORK_DIR/$ARCHIVE_NAME
+#cp $BR2_EXTERNAL/nerves-env.sh $WORK_DIR/$SHORT_NAME
+#cp $BR2_EXTERNAL/nerves.mk $WORK_DIR/$SHORT_NAME
+cp -R $BR2_EXTERNAL/scripts $WORK_DIR/$SHORT_NAME
 
 # Copy the built configuration over
-cp $BASE_DIR/.config $WORK_DIR/$ARCHIVE_NAME
+#cp $BASE_DIR/.config $WORK_DIR/$SHORT_NAME
 
 # Copy the staging and images directories over
-mkdir -p $WORK_DIR/$ARCHIVE_NAME/images $WORK_DIR/$ARCHIVE_NAME/staging
-cp -R $BASE_DIR/images/* $WORK_DIR/$ARCHIVE_NAME/images
-cp -R $BASE_DIR/staging/* $WORK_DIR/$ARCHIVE_NAME/staging
+mkdir -p $WORK_DIR/$SHORT_NAME/images $WORK_DIR/$SHORT_NAME/staging
+cp -R $BASE_DIR/images/* $WORK_DIR/$SHORT_NAME/images
+#cp -R $BASE_DIR/staging/* $WORK_DIR/$SHORT_NAME/staging
 
 # Clean up extra files that were copied over and aren't needed
-rm -f $WORK_DIR/$ARCHIVE_NAME/images/*.fw
-rm -f $WORK_DIR/$ARCHIVE_NAME/images/$ARCHIVE_NAME.img
+rm -f $WORK_DIR/$SHORT_NAME/images/*.fw
+rm -f $WORK_DIR/$SHORT_NAME/images/$SHORT_NAME.img
 
-# The --format=ustar makes it possible for erl_tar to extract these archives
-tar c -z -f $BASE_DIR/$ARCHIVE_NAME.tar.gz -C $WORK_DIR --format=ustar $ARCHIVE_NAME
+# Tar up archive
+ARCHIVE=${SYSTEM_NAME}-${VERSION}.tar.gz
+tar czf $BASE_DIR/$ARCHIVE -C $WORK_DIR $SHORT_NAME
+
+# Move to system-xxx/releases
+REL_DIR=$BR2_EXTERNAL-$SHORT_NAME/releases
+mkdir -p $REL_DIR
+mv $BASE_DIR/$ARCHIVE $REL_DIR/
 
 rm -fr $WORK_DIR

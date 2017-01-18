@@ -15,7 +15,7 @@ export NERVES_DEFCONFIG_DIR
 # firmware images without Buildroot
 NERVES_ARTIFACT_NAME ?= $(BR2_NERVES_SYSTEM_NAME)
 system:
-	$(BR2_EXTERNAL)/scripts/mksystem.sh $(NERVES_ARTIFACT_NAME)
+	$(BR2_EXTERNAL)/scripts/mksystem.sh $(NERVES_ARTIFACT_NAME) $(BR2_EXTERNAL)
 
 # It is common task to copy files to the images directory
 # so that they can be included in a system image. Add this
