@@ -58,7 +58,7 @@ cp -R $BASE_DIR/images/* $WORK_DIR/$SHORT_NAME/images
 
 # Clean up extra files that were copied over and aren't needed
 rm -f $WORK_DIR/$SHORT_NAME/images/*.fw
-rm -f $WORK_DIR/$SHORT_NAME/images/$SHORT_NAME.img
+rm -f $WORK_DIR/$SHORT_NAME/images/$SYSTEM_NAME.img
 
 # Tar up archive
 ARCHIVE=${SYSTEM_NAME}-${VERSION}.tar.gz
