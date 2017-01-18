@@ -6,7 +6,14 @@ VM_CORES=4
 Vagrant.configure('2') do |config|
 	config.vm.box = 'debian/jessie64'
 
+  # share host studs/ dir
   config.vm.synced_folder "../", "/home/vagrant/studs"
+
+  # better job of keeping time synced with host
+  config.vm.provider 'virtualbox' do |vb|
+     vb.customize ["guestproperty", "set", :id,
+       "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 1000]
+  end
 
 	config.vm.provider :vmware_fusion do |v, override|
 		v.vmx['memsize'] = VM_MEMORY
