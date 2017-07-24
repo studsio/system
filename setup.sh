@@ -12,7 +12,7 @@
 # https://github.com/nerves-project/nerves_system_br
 #
 
-BR_VER="2016.08"
+BR_VER="2016.11.1"
 
 # Print message and exit with error code
 fatal() { echo "ERR: $1"; exit 1; }

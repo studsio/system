@@ -23,7 +23,7 @@ set -e
 fatal() { echo "ERR: $1"; exit 1; }
 
 SYSTEM_NAME=$1
-BR2_EXTERNAL=$2
+BR2_EXTERNAL_NERVES_PATH=$2
 
 # Sanity checks
 [ -z $SYSTEM_NAME ] && fatal "Please specify an system name"
@@ -36,7 +36,7 @@ rm -fr $WORK_DIR
 mkdir -p $WORK_DIR/$SHORT_NAME
 
 # Read version
-VERSION=$(cat $BR2_EXTERNAL-$SHORT_NAME/VERSION)
+VERSION=$(cat ${BR2_EXTERNAL_NERVES_PATH}-${SHORT_NAME}/VERSION)
 
 # Write out system.props (TODO on JRE...)
 echo "name=$SHORT_NAME
@@ -44,9 +44,9 @@ version=$VERSION
 jre=linux-armv6-vfp-hflt" > $WORK_DIR/$SHORT_NAME/system.props
 
 # Copy common nerves shell scripts over
-#cp $BR2_EXTERNAL/nerves-env.sh $WORK_DIR/$SHORT_NAME
-#cp $BR2_EXTERNAL/nerves.mk $WORK_DIR/$SHORT_NAME
-cp -R $BR2_EXTERNAL/scripts $WORK_DIR/$SHORT_NAME
+#cp $$BR2_EXTERNAL_NERVES_PATH/nerves-env.sh $WORK_DIR/$SHORT_NAME
+#cp $$BR2_EXTERNAL_NERVES_PATH/nerves.mk $WORK_DIR/$SHORT_NAME
+cp -R $BR2_EXTERNAL_NERVES_PATH/scripts $WORK_DIR/$SHORT_NAME
 
 # Copy the built configuration over
 #cp $BASE_DIR/.config $WORK_DIR/$SHORT_NAME
@@ -65,7 +65,7 @@ ARCHIVE=${SYSTEM_NAME}-${VERSION}.tar.gz
 tar czf $BASE_DIR/$ARCHIVE -C $WORK_DIR $SHORT_NAME
 
 # Move to system-xxx/releases
-REL_DIR=$BR2_EXTERNAL-$SHORT_NAME/releases
+REL_DIR=$BR2_EXTERNAL_NERVES_PATH-$SHORT_NAME/releases
 mkdir -p $REL_DIR
 mv $BASE_DIR/$ARCHIVE $REL_DIR/
 
