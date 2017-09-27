@@ -79,8 +79,6 @@ export NERVES_SDK_SYSROOT
 # Rebar environment variables
 #PLATFORM_DIR=$NERVES_ROOT/sdk/$NERVES_PLATFORM # Update when this is determined
 
-ERTS_DIR=`ls -d $NERVES_SDK_SYSROOT/usr/lib/erlang/erts-*`
-ERL_INTERFACE_DIR=`ls -d $NERVES_SDK_SYSROOT/usr/lib/erlang/lib/erl_interface-*`
 # We usually just have one crosscompiler, but the buildroot toolchain symlinks
 # to the crosscompiler, so two entries show up. The logic below picks the first
 # crosscompiler by default or the one with buildroot in its name.
@@ -103,60 +101,11 @@ done
 # are used. The Rebar project source code for compiling C ports was very helpful
 # initially.
 export CROSSCOMPILE
-export REBAR_PLT_DIR=$NERVES_SDK_SYSROOT/usr/lib/erlang
 export CC=$CROSSCOMPILE-gcc
 export CXX=$CROSSCOMPILE-g++
 export CFLAGS="-D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64  -pipe -Os -I$NERVES_SDK_SYSROOT/usr/include"
 export CXXFLAGS="-D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64  -pipe -Os -I$NERVES_SDK_SYSROOT/usr/include"
 export LDFLAGS="--sysroot=$NERVES_SDK_SYSROOT"
 export STRIP=$CROSSCOMPILE-strip
-export ERL_CFLAGS="-I$ERTS_DIR/include -I$ERL_INTERFACE_DIR/include"
-export ERL_LDFLAGS="-L$ERTS_DIR/lib -L$ERL_INTERFACE_DIR/lib -lerts -lerl_interface -lei"
-export REBAR_TARGET_ARCH=$(basename $CROSSCOMPILE)
-
-# Rebar naming
-export ERL_EI_LIBDIR="$ERL_INTERFACE_DIR/lib"
-export ERL_EI_INCLUDE_DIR="$ERL_INTERFACE_DIR/include"
-
-# erlang.mk naming
-export ERTS_INCLUDE_DIR="$ERTS_DIR/include"
-export ERL_INTERFACE_LIB_DIR="$ERL_INTERFACE_DIR/lib"
-export ERL_INTERFACE_INCLUDE_DIR="$ERL_INTERFACE_DIR/include"
-
-# Since it is so important that the host and target Erlang installs
-# match, check it here.
-NERVES_HOST_ERL_MAJOR_VER_RAW=$(erl -eval 'erlang:display(erlang:system_info(otp_release)), halt().' -noshell)
-NERVES_HOST_ERL_MAJOR_VER=${NERVES_HOST_ERL_MAJOR_VER_RAW//\"}       # Trim double quotes
-NERVES_HOST_ERL_MAJOR_VER=${NERVES_HOST_ERL_MAJOR_VER//[[:space:]]/} # Trim whitespace
-
-# The OTP_VERSION file's location depends on where erl is located. Try both locations
-ERL_DIR=$(dirname $(which erl))
-HOST_OTP_VERSION_PATH=$ERL_DIR/../lib/erlang/releases/$NERVES_HOST_ERL_MAJOR_VER/OTP_VERSION
-[ -e "$HOST_OTP_VERSION_PATH" ] || HOST_OTP_VERSION_PATH=$ERL_DIR/../../releases/$NERVES_HOST_ERL_MAJOR_VER/OTP_VERSION
-
-NERVES_HOST_ERL_VER=$(cat $HOST_OTP_VERSION_PATH)
-NERVES_TARGET_ERL_VER=$(cat $NERVES_SDK_SYSROOT/usr/lib/erlang/releases/*/OTP_VERSION)
-NERVES_TARGET_ERL_MAJOR_VER=${NERVES_TARGET_ERL_VER%%.*}
-if [ "$NERVES_HOST_ERL_MAJOR_VER" != "$NERVES_TARGET_ERL_MAJOR_VER" ]; then
-    echo "ERROR: Major version mismatch between host and target Erlang/OTP versions"
-    echo "    Host version: $NERVES_HOST_ERL_VER"
-    echo "    Target version: $NERVES_TARGET_ERL_VER"
-    echo
-    echo "This will likely cause Erlang code compiled for the target to fail in"
-    echo "unexpected ways. Install an Erlang OTP release that matches the target"
-    echo "version before continuing."
-    echo
-    return 1
-fi
-if [ "$NERVES_HOST_ERL_VER" != "$NERVES_TARGET_ERL_VER" ]; then
-    echo "WARNING: Minor version mismatch between host and target Erlang/OTP versions"
-    echo "    Host version: $NERVES_HOST_ERL_VER"
-    echo "    Target version: $NERVES_TARGET_ERL_VER"
-    echo
-    echo "It is good practice to use the same Erlang OTP release on the host (this"
-    echo "computer) and target to ensure reproduceable builds. Differences in"
-    echo "minor versions should still work, though."
-    echo
-fi
 
 return 0

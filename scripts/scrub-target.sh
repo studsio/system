@@ -43,9 +43,9 @@ rm -fr $TARGET_DIR/etc/init.d $TARGET_DIR/etc/random-seed $TARGET_DIR/etc/networ
 rm -f $TARGET_DIR/etc/wpa_supplicant.conf
 
 # Remove the Buildroot default fstab since it isn't used.
-# erlinit mounts the pseudo filesystems automatically and it
+# faninit mounts the pseudo filesystems automatically and it
 # has parameters to do a best-effort mount attempt on real
-# partitions. Erlang/Elixir applications need to handle
+# partitions. Fantom applications need to handle
 # anything complicated.
 rm -f $TARGET_DIR/etc/fstab
 

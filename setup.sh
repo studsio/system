@@ -1,8 +1,5 @@
 #! /bin/bash
 #
-# Copyright (c) 2017, Andy Frank
-# Licensed under the Academic Free License version 3.0
-#
 # History:
 #   14 Jan 2017  Andy Frank  Creation
 #
