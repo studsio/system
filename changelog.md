@@ -2,6 +2,7 @@
 
 #### Version 1.2 (working)
 - Remove Erlang from buildroot config
+- Remove Erlang and Elixir/mix dependencies
 
 #### Version 1.1 (25-Jul-2017)
 - Update to Buildroot 2016.11.1
