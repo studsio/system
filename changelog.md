@@ -1,6 +1,8 @@
 # Changelog
 
-#### Version 1.2 (working)
+#### Version 1.3 (working)
+
+#### Version 1.2 (29-Nov-2017)
 - Remove Erlang from buildroot config
 - Remove Erlang and Elixir/mix dependencies
 - Update rpi-userland and rpi-firmware SHAs
