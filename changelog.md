@@ -1,6 +1,9 @@
 # Changelog
 
 #### Version 1.3 (working)
+* fwup 0.16
+   - Changed signing keys to be base64 encoded
+   - Added cmdline params for passing public and private keys via cmdline args
 
 #### Version 1.2 (29-Nov-2017)
 - Remove Erlang from buildroot config
