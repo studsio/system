@@ -1,10 +1,17 @@
 # Changelog
 
 #### Version 1.3 (working)
-* fwup 0.16
+* Bump `fwup` to 0.17
    - Changed signing keys to be base64 encoded
    - Added cmdline params for passing public and private keys via cmdline args
-* Bump Buildroot to 2017.08
+   - Add exit handshake feature to avoid a race condition when reporting update errs
+* Bump `Buildroot` to 2017.08
+   - Primarily minor package updates throughout, but a change to how the rootfs
+     skeleton is maintained affects all systems.  Systems now need to specify a
+     custom skeleton or receive an error. The error message has details.
+* Add `nbtty` experimental package for gadget mode serial issues
+* Added a patch to `e2fsprogs` to avoid hanging on a lack of entropy during
+  system startup when formating the application partition
 
 #### Version 1.2 (29-Nov-2017)
 - Remove Erlang from buildroot config
