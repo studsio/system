@@ -43,13 +43,13 @@ index f7bf245..0000000
 -+++ b/src/sparse_file.h
 -@@ -18,6 +18,7 @@
 - #define SPARSE_FILE_H
--
+- 
 - #include <confuse.h>
 -+#include <sys/types.h>
--
+- 
 - struct sparse_file_map
 - {
----
+--- 
 -2.11.0
 -
 diff --git a/package/fwup/fwup.hash b/package/fwup/fwup.hash
@@ -67,11 +67,12 @@ index e47ecbe..1e9d365 100644
 @@ -4,7 +4,7 @@
  #
  ################################################################################
-
+ 
 -FWUP_VERSION = v0.14.3
 +FWUP_VERSION = v0.17.0
  FWUP_SITE = $(call github,fhunleth,fwup,$(FWUP_VERSION))
  FWUP_LICENSE = Apache-2.0
  FWUP_LICENSE_FILES = LICENSE
---
+-- 
 2.7.4
+
