@@ -6,7 +6,7 @@
 
 # Remember to bump the version when anything changes in this directory.
 NERVES_CONFIG_SOURCE =
-NERVES_CONFIG_VERSION = 0.5
+NERVES_CONFIG_VERSION = 0.6
 
 NERVES_CONFIG_DEPENDENCIES = host-fwup openssl
 
