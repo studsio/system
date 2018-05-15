@@ -14,6 +14,7 @@
   system startup when formating the application partition
 * Enable selection of rpi-firmware to support Raspberry Pi ports that want
   to use Linux 4.9 rather than 4.4
+* Pull in BR patches required to support the Raspberry Pi 3 B+
 
 #### Version 1.2 (29-Nov-2017)
 - Remove Erlang from buildroot config
