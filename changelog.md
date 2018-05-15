@@ -1,12 +1,12 @@
 # Changelog
 
 #### Version 1.3 (working)
-* Bump `fwup` to 0.19
+* Bump `fwup` to 1.0
    - Changed signing keys to be base64 encoded
    - Added cmdline params for passing public and private keys via cmdline args
    - Add exit handshake feature to avoid a race condition when reporting update errs
    - Fixes the _SIZE feature for people with raw NAND flashes
-* Bump `Buildroot` to 2017.11.1
+* Bump `Buildroot` to 2017.11.2
    - Primarily minor package updates throughout, but a change to how the rootfs
      skeleton is maintained affects all systems.  Systems now need to specify a
      custom skeleton or receive an error. The error message has details.
