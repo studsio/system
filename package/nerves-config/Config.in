@@ -10,8 +10,6 @@ menuconfig BR2_PACKAGE_NERVES_CONFIG
 	help
 	  Nerves system configuration helper. This selects a set of packages
 	  used by all Nerves systems so that they're never accidentally omitted.
-	  This package used to do more, but has been trimmed down as functionality
-	  has moved into the Nerves tooling.
 
 
 	  https://github.com/nerves-project/nerves_system_br

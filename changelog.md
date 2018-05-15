@@ -13,6 +13,8 @@
 * Add `nbtty` experimental package for gadget mode serial issues
 * Added a patch to `e2fsprogs` to avoid hanging on a lack of entropy during
   system startup when formating the application partition
+* Enable selection of rpi-firmware to support Raspberry Pi ports that want
+  to use Linux 4.9 rather than 4.4
 
 #### Version 1.2 (29-Nov-2017)
 - Remove Erlang from buildroot config
