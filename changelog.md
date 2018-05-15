@@ -3,12 +3,12 @@
 #### Version 1.3 (working)
 * Major merge from upstream to sync up to Nerves 1.0; changelog notes highlights
   but lots of minor and intermediate changes not listed
+* Bump `Buildroot` to 2018.02.1
 * Bump `fwup` to 1.0
    - Changed signing keys to be base64 encoded
    - Added cmdline params for passing public and private keys via cmdline args
    - Add exit handshake feature to avoid a race condition when reporting update errs
    - Fixes the _SIZE feature for people with raw NAND flashes
-* Bump `Buildroot` to 2018.02
 * Add `nbtty` experimental package for gadget mode serial issues
 * Added a patch to `e2fsprogs` to avoid hanging on a lack of entropy during
   system startup when formating the application partition
