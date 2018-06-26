@@ -1,6 +1,8 @@
 # Changelog
 
-#### Version 1.3 (working)
+#### Version 1.4 (working)
+
+#### Version 1.3 (26-Jun-2018)
 * Major merge from upstream to sync up to Nerves 1.0; changelog notes highlights
   but lots of minor and intermediate changes not listed
 * Bump `Buildroot` to 2018.02.1
