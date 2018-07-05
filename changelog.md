@@ -1,6 +1,7 @@
 # Changelog
 
 #### Version 1.4 (working)
+* Patch e2fsprogs to fix mkfs.ext4 hangs on `getrandom()`
 
 #### Version 1.3 (26-Jun-2018)
 * Major merge from upstream to sync up to Nerves 1.0; changelog notes highlights

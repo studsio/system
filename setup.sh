@@ -82,7 +82,7 @@ mv buildroot-* buildroot
 # Apply Studs-specific patches
 echo "Patching..."
 $STUDS_BR_BASE_DIR/buildroot/support/scripts/apply-patches.sh \
- $STUDS_BR_BASE_DIR/buildroot $STUDS_SYSTEM/patches
+ $STUDS_BR_BASE_DIR/buildroot $STUDS_SYSTEM/patches/buildroot
 
 # Configure build directory
 cd $STUDS_SYSTEM
