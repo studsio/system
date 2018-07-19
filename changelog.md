@@ -1,6 +1,8 @@
 # Changelog
 
-#### Version 1.4 (working)
+#### Version 1.5 (working)
+
+#### Version 1.4 (19-Jul-2018)
 * Patch e2fsprogs to fix mkfs.ext4 hangs on `getrandom()`
 
 #### Version 1.3 (26-Jun-2018)
